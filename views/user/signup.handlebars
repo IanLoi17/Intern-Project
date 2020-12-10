@@ -1,0 +1,76 @@
+<link href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
+<style>
+    .text-center {
+        text-transform: uppercase;
+        font-weight: 700;
+    }
+</style>
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+<script>
+    $(function() {
+        $('#datepicker').datepicker({
+            dateFormat: 'dd/mm/yy'
+        });
+    });
+</script>
+
+
+<div class="container">
+    <div class="card">
+        <img src="" alt="">
+
+        <div class="card-body">
+            <h2 class="text-center">Sign up</h2>
+
+            <form method="post" action="/user/signup">
+                <div class="row">
+                    <div class="form-group col-sm-12 col-md-8 col-lg-6">
+                        <input type="text" value="{{name}}" class="form-control" placeholder="Name" autocomplete="off" name="name">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-sm-12 col-md-8 col-lg-6">
+                        <select class="form-control" name="gender" placeholder="gender">
+                            <option style="display: none;" disabled selected value>Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option valie="Others">Others</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-sm-12 col-md-8 col-lg-6">
+                        <input type="email" class="form-control" value="{{email}}" placeholder="Email" autocomplete="off" name="email">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-sm-12 col-md-8 col-lg-6">
+                        <input type="text" id="datepicker" class="form-control" name="DOB" placeholder="Date of birth (DD/MM/YYYY)" value="{{formatDate DOB 'DD/MM/YYYY'}}" autocomplete="off">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-sm-12 col-md-8 col-lg-6">
+                        <input type="password" class="form-control" name="password" placeholder="Password">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-sm-12 col-md-8 col-lg-6">
+                        <input type="password" class="form-control" name="cpassword" placeholder="Confirm password">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-sm-12 col-md-8 col-lg-6">
+                        {{!-- <input type="submit" class="btn-primary" value="SIGN UP"> --}}
+                        <button class="btn-primary" type="submit">SIGN UP</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
