@@ -80,7 +80,7 @@ router.post('/signup', (req, res) => {
 
 router.post('/signin', (req, res, next) => {
     passport.authenticate('local', {
-        successRedirect: '/',
+        successRedirect: '/ProductAdminInsert',
         failureRedirect: '/signin',
         failureFlash: true
     })(req, res, next);

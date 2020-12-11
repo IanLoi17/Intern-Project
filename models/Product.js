@@ -1,20 +1,26 @@
 const Sequelize = require("sequelize");
 const db = require('../config/DBConfig');
+const router = require("../routes/product");
 
 const Product = db.define("product", {
-    name: {
+    ProductName: {
         type: Sequelize.STRING
     },
-    description: {
+    ProductQuantity: {
         type: Sequelize.STRING
     },
-    price: {
-        type: Sequelize.DECIMAL(10, 2)
+    ProductImage: {
+        type: Sequelize.STRING
     },
-    imageURL: {
+    ProductDesc: {
+        type: Sequelize.STRING
+    },
+    ProductPice: {
+        type: Sequelize.DOUBLE(10,2)
+    },
+    ProductType: {
         type: Sequelize.STRING
     }
 });
-
 
 module.exports = Product;

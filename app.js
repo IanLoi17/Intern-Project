@@ -8,6 +8,7 @@ const methodOverride = require('method-override');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const passport = require('passport');
+const productRoute = require('./routes/product');
 
 
 
@@ -24,6 +25,7 @@ authenticate.localStrategy(passport);
 
 const mainRoute = require('./routes/main');
 const userRoute = require('./routes/user');
+
 
 
 const {formatDate} = require('./helpers/hbs');
@@ -107,6 +109,7 @@ app.use(function(req, res, next) {
 
 app.use('/', mainRoute);
 app.use('/user', userRoute);
+app.use('/', productRoute);
 
 
 const port = 5000;

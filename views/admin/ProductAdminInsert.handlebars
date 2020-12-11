@@ -1,0 +1,22 @@
+<form method="post" action="/ProductAdminInsert">
+    <label for="fname">Product Name:</label>
+    <input type="text"  name="ProductName"><br><br>
+    <label for="lname">Product Type:</label>
+    <select name="ProductType" >
+        <option value></option>
+        <option value="Beauty">Beauty</option>
+        <option value="Computers">Computers</option>
+        <option value="Sunglasses and Jewellery">Sunglasses and Jewellery</option>
+        <option value="Groceries">Groceries</option>
+    </select><br>
+    <label for="lname" style="margin-bottom: 20%;">Product Description:</label>
+    <textarea type="text" name="ProductDesc" rows="4" cols="35"></textarea><br><br>
+    <label for="lname">Product Quantity:</label>
+    <input type="text" name="ProductQuantity"><br><br>
+    <label for="lname">Product Image:</label>
+    <input type="file" name="ProductImage"  /><br><br>
+    <label for="lname">Product Price:</label>
+    <input type="text" name="ProductPrice"><br><br>
+</form>
+<input type="button" onclick="location.href='/ProductAdmin';" value="Add Item"/>
+<input type="button" onclick="location.href='/ProductAdmin';" value="Cancel"/>
