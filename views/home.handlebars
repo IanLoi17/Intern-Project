@@ -1,1 +1,7 @@
-<a href="/signup" style="text-transform: uppercase; text-decoration: none;">Sign up</a>
+{{#if user}}
+<h1 class="text-center" style="text-transform: uppercase;">Welcome</h1>
+
+
+{{else}}
+<h1 class="text-center" style="text-transform: uppercase;">Welcome Anonymous</h1>
+{{/if}}

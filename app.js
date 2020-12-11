@@ -7,6 +7,7 @@ const FlashMessenger = require('flash-messenger');
 const methodOverride = require('method-override');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const passport = require('passport');
 
 
 
@@ -16,6 +17,9 @@ const db = require('./config/db');
 
 const internDatabase = require('./config/DBConnection');
 internDatabase.setUpDB(false);
+
+const authenticate = require('./config/passport');
+authenticate.localStrategy(passport);
 
 
 const mainRoute = require('./routes/main');
@@ -80,7 +84,10 @@ app.use(session({
 
 
 app.use(flash());
-app.use(FlashMessenger.middleware);
+app.use(FlashMessenger.middleware);4
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 

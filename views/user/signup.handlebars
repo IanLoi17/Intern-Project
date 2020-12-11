@@ -4,6 +4,14 @@
         text-transform: uppercase;
         font-weight: 700;
     }
+
+    #label {
+        margin-right: 10px;
+    }
+
+    #signinLink {
+        text-decoration: none;
+    }
 </style>
 <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
@@ -25,15 +33,23 @@
 
             <form method="post" action="/user/signup">
                 <div class="row">
-                    <div class="form-group col-sm-12 col-md-8 col-lg-6">
-                        <input type="text" value="{{name}}" class="form-control" placeholder="Name" autocomplete="off" name="name">
+                    <div class="form-inline form-group col-sm-12 col-md-12 col-lg-12">
+                        <label id="label" class="text-dark font-weight-bold">Full name:</label>
+                        <input type="text" value="{{name}}" class="form-control col-sm-12 col-md-10 col-lg-10" placeholder="Full name" autocomplete="off" name="name">
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="form-group col-sm-12 col-md-8 col-lg-6">
+                    <div class="form-inline form-group col-sm-12 col-md-12 col-lg-12">
+                        <label id="label" class="text-dark font-weight-bold">Username:</label>
+                        <input type="text" value="{{username}}" class="form-control col-sm-12 col-md-10 col-lg-10" placeholder="Username" autocomplete="off" name="username">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-inline form-group col-sm-12 col-md-12 col-lg-12">
+                        <label id="label" class="text-dark font-weight-bold">Gender:</label>
                         <select class="form-control" name="gender" placeholder="gender">
-                            <option style="display: none;" disabled selected value>Gender</option>
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
                             <option valie="Others">Others</option>
@@ -41,31 +57,41 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="form-group col-sm-12 col-md-8 col-lg-6">
-                        <input type="email" class="form-control" value="{{email}}" placeholder="Email" autocomplete="off" name="email">
+                    <div class="form-inline form-group col-sm-12 col-md-12 col-lg-12">
+                        <label id="label" class="text-dark font-weight-bold">Email:</label>
+                        <input type="email" class="form-control col-sm-12 col-md-10 col-lg-10" value="{{email}}" placeholder="Email" autocomplete="off" name="email">
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="form-group col-sm-12 col-md-8 col-lg-6">
-                        <input type="text" id="datepicker" class="form-control" name="DOB" placeholder="Date of birth (DD/MM/YYYY)" value="{{formatDate DOB 'DD/MM/YYYY'}}" autocomplete="off">
+                    <div class="form-inline form-group col-sm-12 col-md-12 col-lg-12">
+                        <label id="label" class="text-dark font-weight-bold">Date of birth (DD/MM/YYYY):</label>
+                        <input type="text" id="datepicker" class="form-control col-sm-12 col-md-7 col-lg-7" name="DOB" placeholder="Date of birth (DD/MM/YYYY)" value="{{formatDate DOB 'DD/MM/YYYY'}}" autocomplete="off">
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="form-group col-sm-12 col-md-8 col-lg-6">
-                        <input type="password" class="form-control" name="password" placeholder="Password">
+                    <div class="form-inline form-group col-sm-12 col-md-12 col-lg-12">
+                        <label id="label" class="text-dark font-weight-bold">Password:</label>
+                        <input type="password" class="form-control col-sm-12 col-md-10 col-lg-10" name="password" placeholder="Password">
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="form-group col-sm-12 col-md-8 col-lg-6">
-                        <input type="password" class="form-control" name="cpassword" placeholder="Confirm password">
+                    <div class="form-inline form-group col-sm-12 col-md-12 col-lg-12">
+                        <label id="label" class="text-dark font-weight-bold">Confirm password:</label>
+                        <input type="password" class="form-control col-sm-12 col-md-10 col-lg-10" name="cpassword" placeholder="Confirm password">
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="form-group col-sm-12 col-md-8 col-lg-6">
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <p>Already have an accunt? Click <a id="signinLink" href="/signin">here</a> to sign up for an account</p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-sm-12 col-md-12 col-lg-12">
                         {{!-- <input type="submit" class="btn-primary" value="SIGN UP"> --}}
                         <button class="btn-primary" type="submit">SIGN UP</button>
                     </div>

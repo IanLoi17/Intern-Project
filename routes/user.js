@@ -7,10 +7,11 @@ const passport = require('passport');
 const alertMessage = require('../helpers/messenger');
 
 
+
 router.post('/signup', (req, res) => {
     let errors = [];
 
-    let {name, gender, email, password, cpassword} = req.body;
+    let {name, username, gender, email, password, cpassword} = req.body;
     let DOB = moment(req.body.DOB, 'DD/MM/YYYY');
     let userID = req.body.userID;
 
@@ -26,6 +27,7 @@ router.post('/signup', (req, res) => {
         res.render('user/signup', {
             errors,
             name,
+            username,
             gender,
             email,
             DOB,
@@ -36,16 +38,17 @@ router.post('/signup', (req, res) => {
 
 
     else {
-        User.findOne({where: {email: req.body.email}}).then((user) => {
+        User.findOne({where: {username: req.body.username}}).then((user) => {
             if (user) {
                 res.render('user/signup', {
                     name,
+                    username,
                     email,
                     gender,
                     DOB,
                     password,
                     cpassword
-                });
+                })
 
                 alertMessage(res, 'danger', 'A user with email ' + user.email + 'has already registered an account! Use another email', 'fa fa-warning', true);
             }
@@ -58,13 +61,14 @@ router.post('/signup', (req, res) => {
 
                         User.create({
                             name,
+                            username,
                             gender,
                             email,
                             DOB,
                             password
                         }).then(user => {
                             alertMessage(res, 'success', user.name + 'has registered successfully', 'fas fa-sign-in-alt', true);
-                            res.redirect('/');
+                            res.redirect('/signin');
                         }).catch(err => console.log(err))
                     })
                 })
@@ -72,6 +76,15 @@ router.post('/signup', (req, res) => {
         })
     }
 });
+
+
+router.post('/signin', (req, res, next) => {
+    passport.authenticate('local', {
+        successRedirect: '/',
+        failureRedirect: '/signin',
+        failureFlash: true
+    })(req, res, next);
+})
 
 
 module.exports = router;
