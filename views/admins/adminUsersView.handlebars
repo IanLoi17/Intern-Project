@@ -1,0 +1,36 @@
+{{#if users}}
+<table class="table table-hover table-bordered table-responsive">
+    <thead>
+        <tr>
+            <td>Full name</td>
+            <td>Username</td>
+            <td>Gender</td>
+            <td>Email</td>
+            <td>Date of birth</td>
+            <td>Password</td>
+            <td></td>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each users}}
+        <tr>
+            <td>{{name}}</td>
+            <td>{{username}}</td>
+            <td>{{gender}}</td>
+            <td>{{email}}</td>
+            <td>{{formatDate DOB 'DD MMM YYYY'}}</td>
+            <td>{{password}}</td>
+            <td>
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-success">View</button>
+                    <button type="button" class="btn btn-danger">Delete</button>
+                </div>
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+{{else}}
+<h1 class="text-center font-weight-bold">No users found</h1>
+{{/if}}

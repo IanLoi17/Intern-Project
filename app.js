@@ -25,6 +25,7 @@ authenticate.localStrategy(passport);
 const mainRoute = require('./routes/main');
 const userRoute = require('./routes/user');
 const productRoute = require('./routes/product');
+const adminRoute = require('./routes/admin');
 
 
 const {formatDate, decryptPassword} = require('./helpers/hbs');
@@ -85,7 +86,7 @@ app.use(session({
 
 
 app.use(flash());
-app.use(FlashMessenger.middleware);4
+app.use(FlashMessenger.middleware);
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -109,6 +110,7 @@ app.use(function(req, res, next) {
 app.use('/', mainRoute);
 app.use('/user', userRoute);
 app.use('/product', productRoute);
+app.use('/admin', adminRoute);
 
 
 const port = 5000;
