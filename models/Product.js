@@ -1,13 +1,12 @@
 const Sequelize = require("sequelize");
 const db = require('../config/DBConfig');
-const router = require("../routes/product");
 
 const Product = db.define("product", {
     ProductName: {
         type: Sequelize.STRING
     },
     ProductQuantity: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
     },
     ProductImage: {
         type: Sequelize.STRING
@@ -15,12 +14,13 @@ const Product = db.define("product", {
     ProductDesc: {
         type: Sequelize.STRING
     },
-    ProductPice: {
-        type: Sequelize.DOUBLE(10,2)
+    ProductPrice: {
+        type: Sequelize.DECIMAL(10,2)
     },
     ProductType: {
         type: Sequelize.STRING
     }
 });
+
 
 module.exports = Product;

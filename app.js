@@ -8,7 +8,6 @@ const methodOverride = require('method-override');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const passport = require('passport');
-const productRoute = require('./routes/product');
 
 
 
@@ -25,10 +24,10 @@ authenticate.localStrategy(passport);
 
 const mainRoute = require('./routes/main');
 const userRoute = require('./routes/user');
+const productRoute = require('./routes/product');
 
 
-
-const {formatDate} = require('./helpers/hbs');
+const {formatDate, decryptPassword} = require('./helpers/hbs');
 
 
 const app = express();
@@ -38,7 +37,7 @@ app.engine('handlebars', exphbs({
     defaultLayout: 'main',
 
     helpers: {
-        formatDate: formatDate
+        formatDate: formatDate,
     }
 }));
 
@@ -109,7 +108,7 @@ app.use(function(req, res, next) {
 
 app.use('/', mainRoute);
 app.use('/user', userRoute);
-app.use('/', productRoute);
+app.use('/product', productRoute);
 
 
 const port = 5000;

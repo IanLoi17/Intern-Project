@@ -1,27 +1,26 @@
 const express = require('express');
 const router = express.Router();
+const moment = require('moment');
 const Product = require('../models/Product');
+const alertMessage = require('../helpers/messenger');
+const User = require('../models/User');
 
-router.get('/ProductAdmin', (req, res) => {
-    res.render('admin/ProductAdmin');
+
+
+router.get('/addProductAdmin', (req, res) => {
+    Product.findAll({
+        where: {}
+    }).then((products) => {
+        res.render('./admins/addProductAdmin', {
+            products
+        });
+    }).catch(err => console.log(err));
 });
 
-router.get('/ProductAdminInsert', (req, res) => {
-    res.render('admin/ProductAdminInsert');
-});
 
-// router.post('/ProductAdmin', (req, res) => {
-//     // res.render('admin/ProductAdmin');
-// });
-
-router.post('/ProductAdminInsert', (req,res)=>{
-    let ProductName = req.body.ProductName;
-    let ProductType = req.body.ProductType;
-    let ProductDesc = req.body.ProductDesc;
-    let ProductQuantity = req.body.ProductQuantity;
-    let ProductImage = req.body.ProductImage;
-    let ProductPrice = req.body.ProductPrice;
-    let userId = 1;
+router.post('/addProductAdmin', (req, res) => {
+    let {ProductName, ProductType, ProductDesc, ProductQuantity, ProductImage, ProductPrice} = req.body;
+    let userId = req.user.id;
 
     Product.create({
         ProductName,
@@ -30,14 +29,12 @@ router.post('/ProductAdminInsert', (req,res)=>{
         ProductDesc,
         ProductPrice,
         ProductType,
-        userId  
-    }).then((product) => {
-        res.redirect('./ProductAdmin')
+        userId
+    }).then(() => {
+        alertMessage(res, 'success', 'Product has been added successfully', 'fa fa-check-circle', true);
+        res.redirect('/product/addProductAdmin');
     }).catch(err => console.log(err));
 });
 
-router.post('/upload', function(req, res) {
-    console.log(req.files.productimage); // the uploaded file object
-  });
 
 module.exports = router;

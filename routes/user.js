@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require('../models/User');
 const moment = require('moment');
 const bcrypt= require('bcryptjs');
+const cryptr = require('cryptr');
 const passport = require('passport');
 const alertMessage = require('../helpers/messenger');
 
@@ -38,7 +39,9 @@ router.post('/signup', (req, res) => {
 
 
     else {
-        User.findOne({where: {username: req.body.username}}).then((user) => {
+        User.findOne({
+            where: {username: req.body.username}
+        }).then((user) => {
             if (user) {
                 res.render('user/signup', {
                     name,
@@ -80,11 +83,28 @@ router.post('/signup', (req, res) => {
 
 router.post('/signin', (req, res, next) => {
     passport.authenticate('local', {
-        successRedirect: '/ProductAdminInsert',
+        successRedirect: '/',
         failureRedirect: '/signin',
         failureFlash: true
     })(req, res, next);
-})
+});
+
+
+
+
+router.get('/adminUsersView', (req, res) => {
+    User.findAll({
+        order: [
+            ['name', 'ASC']
+        ],
+        
+        raw: true
+    }).then((users) => {
+        res.render('./user/adminUsersView', {
+            users: users
+        });
+    }).catch(err => console.log(err));
+});
 
 
 module.exports = router;

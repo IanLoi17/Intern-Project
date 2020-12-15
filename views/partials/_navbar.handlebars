@@ -12,22 +12,24 @@
 <nav class="navbar navbar-dark bg-dark">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a href="/" class="navbar-brand">Home</a>
+            <a href="/" class="navbar-brand font-weight-bold">Home</a>
         </div>
 
         <div class="row">
             <div class="col-sm-12 col-md-12 col-lg-12">
                 {{#if user}}
                 <ul id="navbar">
-                    <li class="navbar-brand"><a href="/signout" class="nav-link">Sign out</a></li>
+                    <li class="navbar-brand"><a href="/product/addProductAdmin" class="nav-link font-weight-bold">Add products</a></li>
+                    <li class="navbar-brand"><a href="/user/adminUsersView" class="nav-link font-weight-bold">All users</a></li>
+                                        <li class="navbar-brand"><a href="/signout" class="nav-link font-weight-bold">Sign out</a></li>
                 </ul>
             </div>
 
             <div class="col-sm-12 col-md-12 col-lg-12">
                 {{else}}
                 <ul id="navbar">
-                    <li class="navbar-brand"><a class="nav-link" href="/signup" style="text-decoration: none;">Sign up</a></li>
-                    <li class="navbar-brand"><a class="nav-link" href="/signin" style="text-decoration: none;">Sign in</a></li>
+                    <li class="navbar-brand"><a class="nav-link font-weight-bold" href="/signup" style="text-decoration: none;">Sign up</a></li>
+                    <li class="navbar-brand"><a class="nav-link font-weight-bold" href="/signin" style="text-decoration: none;">Sign in</a></li>
                 </ul>
                 {{/if}}
             </div>
