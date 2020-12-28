@@ -11,6 +11,7 @@ const alertMessage = require('../helpers/messenger');
 
 router.post('/signup', (req, res) => {
     let errors = [];
+    let strengthCheck = [];
 
     let {name, username, gender, email, password, cpassword} = req.body;
     let DOB = moment(req.body.DOB, 'DD/MM/YYYY');
@@ -29,6 +30,7 @@ router.post('/signup', (req, res) => {
             errors,
             name,
             username,
+            role,
             gender,
             email,
             DOB,
@@ -46,6 +48,7 @@ router.post('/signup', (req, res) => {
                 res.render('user/signup', {
                     name,
                     username,
+                    role,
                     email,
                     gender,
                     DOB,
@@ -61,18 +64,36 @@ router.post('/signup', (req, res) => {
                 bcrypt.genSalt(10, function(err, salt) {
                     bcrypt.hash("B4c0/\/", salt, function(err, hash) {
                         password = bcrypt.hashSync(password, salt);
-
-                        User.create({
-                            name,
-                            username,
-                            gender,
-                            email,
-                            DOB,
-                            password
-                        }).then(user => {
-                            alertMessage(res, 'success', user.name + 'has registered successfully', 'fas fa-sign-in-alt', true);
-                            res.redirect('/signin');
-                        }).catch(err => console.log(err))
+                        
+                        if (email.includes("admin")) {
+                            User.create({
+                                name,
+                                username,
+                                role: "Administrator",
+                                gender,
+                                email,
+                                DOB,
+                                password
+                            }).then(user => {
+                                alertMessage(res, 'success', user.name + 'has registered successfully', 'fas fa-sign-in-alt', true);
+                                res.redirect('/signin');
+                            }).catch(err => console.log(err))
+                        }
+                        
+                        else {
+                            User.create({
+                                name,
+                                username,
+                                role: "User",
+                                gender,
+                                email,
+                                DOB,
+                                password
+                            }).then(user => {
+                                alertMessage(res, 'success', user.name + 'has registered successfully', 'fas fa-sign-in-alt', true);
+                                res.redirect('/signin');
+                            }).catch(err => console.log(err))
+                        }
                     })
                 })
             }
@@ -88,6 +109,58 @@ router.post('/signin', (req, res, next) => {
         failureFlash: true
     })(req, res, next);
 });
+
+
+router.get('/profile', (req, res) => {
+    let id = req.user.id;
+
+    User.findOne({
+        where: {
+            id: id
+        }
+    }).then((user) => {
+        res.render('user/profile', {
+            user
+        });
+    }).catch(err => console.log(err))
+});
+
+
+router.post('/updateProfile/:id', (req, res) => {
+    let {name, email} = req.body;
+
+    User.update({
+        name,
+        email
+    }, {
+        where: {
+            id: req.params.id
+        }
+    }).then(() => {
+        alertMessage(res, "success", "Your profile has been updated successfully", "fa fa-check", true);
+        res.redirect("/");
+    }).catch(err => console.log(err));
+});
+
+
+
+router.get('/changePassword', (req, res) => {
+    res.render('./user/changePassword');
+});
+
+
+
+router.post('/changePassword', (req, res) => {
+    let {password, newPass, confirmNewPass} = req.body;
+
+    User.findOne({
+        where: {
+            id: req.params.id
+        }
+    }).then((user) => {
+
+    })
+})
 
 
 

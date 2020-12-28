@@ -1,26 +1,54 @@
 <style>
-    #navbar {
-        list-style-type: none;
-        overflow: hidden;
-    }
-
     li {
         float: left;
+    }
+
+    #image {
+        margin-right: 95px;
+    }
+
+    hr {
+        margin-bottom: 0;
+    }
+
+    #dropdown {
+        width: 215px;
+    }
+
+    #profileImg {
+        width: 40px;
     }
 </style>
 
 <nav class="navbar navbar-inverse navbar-dark bg-dark">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a href="/" class="navbar-brand font-weight-bold">Home</a>
+            <a href="/" class="navbar-brand font-weight-bold text-primary">Home</a>
         </div>
 
         {{#if user}}
         <ul class="nav navbar">
-            <li class="navbar-brand font-weight-bold"><a href="/admin/addProductAdmin" class="nav-link">Add
-                    products</a></li>
-            <li class="navbar-brand font-weight-bold"><a href="/admin/adminUsersView" class="nav-link">All users</a></li>
-            <li class="navbar-brand font-weight-bold"><a href="/signout" class="nav-link">Sign out</a></li>
+            <li id="adminProduct" class="navbar-brand font-weight-bold">
+                <a href="/admin/addProductAdmin" class="nav-link">Add products</a>
+            </li>
+
+            <li id="adminUser" class="navbar-brand font-weight-bold">
+                <a href="/admin/adminUsersView" class="nav-link">All customers</a>
+            </li>
+
+            <li id="profileImg" class="navbar-brand font-weight-bold">
+                <img src="/images/CoffeeCup.jpg" id="image" style="width:65px; height:55px; cursor:pointer" data-toggle="dropdown" class="btn dropdown-toggle img-circle">
+
+                <ul id="dropdown" class="dropdown-menu">
+                    <p class="font-weight-bold text-dark text-center">Welcome {{user.username}}</p>
+                    <hr>
+                    <li class="navbar-brand font-weight-bold">
+                        <a href="/user/profile" class="nav-link"><i class="fas fa-user-circle"></i> View profile</a>
+                        <a href="/user/changePassword" class="nav-link"><i class="fa fa-unlock-alt"></i> Change password</a>
+                        <a href="/signout" class="nav-link"><i class="fas fa-sign-out-alt" aria-hidden="true"></i> Sign out</a>
+                    </li>
+                </ul>
+            </li>
         </ul>
 
         {{else}}
@@ -55,3 +83,19 @@
         </div> --}}
     </div>
 </nav>
+
+<script>
+    if ('{{user.role}}' == "Administrator") {
+        document.getElementById("adminProduct").style.display = "block";
+        document.getElementById("adminUser").style.display = "block";
+        document.getElementById("dropdown").style.marginLeft = "250px";
+    }
+
+    else if ('{{user.role}}' == "User") {
+        document.getElementById("adminProduct").style.display = "none";
+        document.getElementById("adminUser").style.display = "none";
+        document.getElementById("dropdown").style.marginLeft = "-100px";
+    }
+</script>
+
+

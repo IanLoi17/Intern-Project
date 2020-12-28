@@ -10,6 +10,10 @@ const bodyParser = require('body-parser');
 const passport = require('passport');
 
 
+const Handlebars = require('handlebars');
+const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access');
+
+
 
 const MySQLStore = require('express-mysql-session');
 const db = require('./config/db');
@@ -28,7 +32,7 @@ const productRoute = require('./routes/product');
 const adminRoute = require('./routes/admin');
 
 
-const {formatDate, decryptPassword} = require('./helpers/hbs');
+const {formatDate} = require('./helpers/hbs');
 
 
 const app = express();
@@ -36,6 +40,7 @@ const app = express();
 
 app.engine('handlebars', exphbs({
     defaultLayout: 'main',
+    handlebars: allowInsecurePrototypeAccess(Handlebars),
 
     helpers: {
         formatDate: formatDate,

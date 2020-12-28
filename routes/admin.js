@@ -38,6 +38,10 @@ router.post('/addProductAdmin', (req, res) => {
 
 router.get('/adminUsersView', ensureAuthenticated, (req, res) => {
     User.findAll({
+        where: {
+            role: "User"
+        },
+        
         order: [
             ['name', 'ASC']
         ],
@@ -50,6 +54,44 @@ router.get('/adminUsersView', ensureAuthenticated, (req, res) => {
     }).catch(err => console.log(err));
 });
 
+
+
+router.get('/deleteUser/:id', ensureAuthenticated, (req, res) => {
+    let id = req.params.id;
+
+    User.findOne({
+        where: {
+            id: id
+        }
+    }).then((user) => {
+        if (user != null) {
+            User.destroy({
+                where: {
+                    id: id
+                }
+            }).then(() => {
+                alertMessage(res, 'danger', 'User data has been deleted successfully', 'fas fa-trash-alt', true);
+                res.redirect('/admin/adminUsersView');
+            }).catch(err => console.log(err));
+        }
+    }).catch(err => console.log(err));
+});
+
+
+// router.get('/viewUser/:id', (req, res) => {
+//     User.findOne({
+//         where: {
+//             id: req.params.id
+//         }
+//     }).then((user) => {
+//         res.render('./admins/viewUser', {
+//             user
+//         });
+
+
+//         console.log(user);
+//     }).catch(err => console.log(err));
+// })
 
 
 module.exports = router;

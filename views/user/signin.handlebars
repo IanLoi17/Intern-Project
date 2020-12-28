@@ -9,7 +9,7 @@
         margin-right: 10px;
     }
 
-    #signupLink {
+    #passReset {
         text-decoration: none;
     }
 
@@ -45,8 +45,17 @@
                 </div>
 
                 <div class="row">
+                    <div class="form-group form-inline col-sm-12 col-md-12 col-lg-12">
+                        <label class="font-weight-bold">
+                            <input type="checkbox" id="rememberMe" name="rememberMe" style="margin-right:8px;"> Remember me
+                        </label>
+                    </div>
+                </div>
+
+                <div class="row">
                     <div class="col-sm-12 col-md-12 col-lg-12">
-                        <p>Do not have an account? Click <a id="signupLink" href="/signup">here</a> to sign up for an account</p>
+                        {{!-- <p>Do not have an account? Click <a id="signupLink" href="/signup">here</a> to sign up for an account</p> --}}
+                        <p>Forgot your password? Click <a id="passReset" href="#">here</a> to reset your password</p>
                     </div>
                 </div>
 
