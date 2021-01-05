@@ -1,7 +1,15 @@
 {{#if user}}
+
 <h1 class="text-center font-weight-bold" style="text-transform: uppercase;">Welcome {{name}}</h1>
 
 
 {{else}}
 <h1 class="text-center font-weight-bold" style="text-transform: uppercase;">Welcome Anonymous</h1>
+
+<h1 class="text-center font-weight-bold" style="text-transform: uppercase;" name="name">Welcome {{user.name}}</h1>
+
+
+{{else}}
+<h1 class="text-center font-weight-bold" style="text-transform: uppercase;">Welcome Guest</h1>
+
 {{/if}}

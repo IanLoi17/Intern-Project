@@ -29,9 +29,13 @@
 
             <div class="form-inline form-group col-sm-12 col-md-12 col-lg-12">
                 <label for="ProductImage" class="text-dark font-weight-bold">Product image:</label>
+
                 <input type="file" id="productImage" name="productImage" class="col-sm-12 col-md-10 col-lg-10">
                 <img id="img" />
                 <input id="imageurl" type="hidden" name="ProductImage"/>
+
+                <input type="file" name="ProductImage" class="col-sm-12 col-md-10 col-lg-10">
+
             </div>
 
             <div class="form-inline form-group col-sm-12 col-md-12 col-lg-12">
@@ -40,9 +44,14 @@
             </div>
 
             <div class="form-group col-sm-12 col-md-12 col-lg-12">
+
                 <button type="submit" class="btn btn-primary" action="/admin/adminProductsView">Add product</button>
             </div>
             <input type="button" class="btn btn-primary" style="margin-left: 1%;" onclick="location.href='/admin/adminProductsView';" value="Cancel" />
+
+                <button type="submit" class="btn btn-primary" action="/product/addProductAdmin">Add product</button>
+            </div>
+
         </div>
 
     </form>

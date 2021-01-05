@@ -4,7 +4,9 @@ const Product = require('../models/Product');
 const User = require('../models/User');
 const alertMessage = require('../helpers/messenger');
 const ensureAuthenticated = require('../helpers/auth');
+
 const upload = require('../helpers/imageUpload');
+
 
 router.get('/addProductAdmin', (req, res) => {
     Product.findAll({
@@ -15,6 +17,7 @@ router.get('/addProductAdmin', (req, res) => {
         });
     }).catch(err => console.log(err));
 });
+
 
 router.get('/adminProductsView', (req, res) => {
     Product.findAll({
@@ -37,6 +40,7 @@ router.get('/Product', (req, res) => {
 });
 
 
+
 router.post('/addProductAdmin', (req, res) => {
     let {ProductName, ProductType, ProductDesc, ProductQuantity, ProductImage, ProductPrice} = req.body;
     let userId = req.user.id;
@@ -51,7 +55,11 @@ router.post('/addProductAdmin', (req, res) => {
         userId
     }).then(() => {
         alertMessage(res, 'success', 'Product has been added successfully', 'fa fa-check-circle', true);
+
         res.redirect('/admin/adminProductsView');
+
+        res.redirect('/admins/addProductAdmin');
+
     }).catch(err => console.log(err));
 });
 
@@ -98,6 +106,7 @@ router.get('/deleteUser/:id', ensureAuthenticated, (req, res) => {
     }).catch(err => console.log(err));
 });
 
+
 router.get('/deleteProduct/:id', ensureAuthenticated, (req, res) => {
     let id = req.params.id;
 
@@ -119,7 +128,6 @@ router.get('/deleteProduct/:id', ensureAuthenticated, (req, res) => {
     }).catch(err => console.log(err));
 });
 
-
 // router.get('/viewUser/:id', (req, res) => {
 //     User.findOne({
 //         where: {
@@ -134,6 +142,7 @@ router.get('/deleteProduct/:id', ensureAuthenticated, (req, res) => {
 //         console.log(user);
 //     }).catch(err => console.log(err));
 // })
+
 
 router.post('/upload', (req, res) => {
     if (!fs.existsSync('./public/uploads/' + req.user.id)) {
@@ -166,5 +175,6 @@ router.post('/upload', (req, res) => {
         }
     });
 });
+
 
 module.exports = router;
