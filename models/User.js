@@ -9,6 +9,9 @@ const User = db.define("user", {
     username: {
         type: Sequelize.STRING
     },
+    role: {
+        type: Sequelize.STRING
+    },
     gender: {
         type: Sequelize.STRING
     },

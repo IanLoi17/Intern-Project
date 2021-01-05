@@ -1,0 +1,75 @@
+<style>
+    #editName, #editEmail {
+        margin-top: 35px;
+    }
+
+    #updateBtn {
+        margin-left: 15px;
+        margin-bottom: 40px;
+    }
+</style>
+
+
+<div class="container">
+    {{#if user}}
+    <div class="card">
+        <h1 class="font-weight-bold text-center">Your profile</h1>
+
+        <div class="card-body">
+            <form method="post" action="/user/updateProfile/{{user.id}}">
+                <div class="row">
+                    <div class="col-sm-12 col-md-6 col-lg-4">
+                        <label for="name" class="font-weight-bold">Full name:</label>
+                        <input id="nameInput" type="text" name="name" class="form-control" value="{{user.name}}" autocomplete="off" disabled>
+                    </div>
+
+                    <div class="col-sm-12 col-md-6 col-lg-4">
+                        <label for="email" class="font-weight-bold">Email:</label>
+                        <input id="emailInput" type="text" name="email" class="form-control" value="{{user.email}}" autocomplete="off" disabled>
+                    </div>
+
+                    <div class="col-sm-12 col-md-6 col-lg-4">
+                        <label for="gender" class="font-weight-bold">Gender:</label>
+                        <p class="text-dark">{{user.gender}}</p>
+                    </div>
+
+                    <div class="col-sm-12 col-md-6 col-lg-4">
+                        <label for="DOB" class="font-weight-bold">Date of birth:</label>
+                        <p class="text-dark">{{formatDate user.DOB 'DD MMMM YYYY'}}</p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="btn-group" role="group">
+                        <button id="updateBtn" class="btn btn-sm btn-primary" style="display:none;">Update</button>
+                    </div>
+                </div>
+            </form>
+
+
+            <button id="editBtn" onclick="enableInput()" class="btn btn-sm btn-secondary"><i class="fas fa-pencil-alt"></i> Edit</button>
+            <button id="backBtn" class="btn btn-sm btn-primary" style="display:none;" onclick="disableInput()"><i class="fa fa-arrow-left"></i> Back</button>
+        </div>
+    </div>
+    {{/if}}
+</div>
+
+<script>
+    function enableInput() {
+        document.getElementById("nameInput").disabled = false;
+        document.getElementById("emailInput").disabled = false;
+        document.getElementById("editBtn").style.display = "none";
+        document.getElementById("updateBtn").style.display = "block";
+        document.getElementById("backBtn").style.display = "block";
+    }
+
+
+
+    function disableInput() {
+        document.getElementById("nameInput").disabled = true;
+        document.getElementById("emailInput").disabled = true;
+        document.getElementById("editBtn").style.display = "block";
+        document.getElementById("updateBtn").style.display = "none";
+        document.getElementById("backBtn").style.display = "none";
+    }
+</script>
