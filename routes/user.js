@@ -4,15 +4,17 @@ const User = require('../models/User');
 const moment = require('moment');
 const bcrypt= require('bcryptjs');
 const ensureAuthenticated = require('../helpers/auth');
+const sgMail = require('@sendgrid/mail');
+const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const alertMessage = require('../helpers/messenger');
-const Product = require('../models/Product');
+const fs = require('fs');
+const upload = require('../helpers/imageUpload');
 
 
 
 router.post('/signup', (req, res) => {
     let errors = [];
-    let strengthCheck = [];
 
     let {name, username, gender, email, password, cpassword} = req.body;
     let DOB = moment(req.body.DOB, 'DD/MM/YYYY');
@@ -57,7 +59,7 @@ router.post('/signup', (req, res) => {
                     cpassword
                 })
 
-                alertMessage(res, 'danger', 'A user with email ' + user.email + 'has already registered an account! Use another email', 'fa fa-warning', true);
+                alertMessage(res, 'danger', 'A user with the username ' + user.username + ' has already registered an account! Use another username', 'fa fa-warning', true);
             }
 
             else {
@@ -74,9 +76,10 @@ router.post('/signup', (req, res) => {
                                 gender,
                                 email,
                                 DOB,
-                                password
+                                password,
+                                verified: 0
                             }).then(user => {
-                                alertMessage(res, 'success', user.name + 'has registered successfully', 'fas fa-sign-in-alt', true);
+                                alertMessage(res, 'success', user.name + ' has registered successfully', 'fas fa-sign-in-alt', true);
                                 res.redirect('/signin');
                             }).catch(err => console.log(err))
                         }
@@ -89,16 +92,17 @@ router.post('/signup', (req, res) => {
                                 gender,
                                 email,
                                 DOB,
-                                password
+                                password,
+                                verified: 0
                             }).then(user => {
-                                alertMessage(res, 'success', user.name + 'has registered successfully', 'fas fa-sign-in-alt', true);
+                                alertMessage(res, 'success', user.name + ' has registered successfully', 'fas fa-sign-in-alt', true);
                                 res.redirect('/signin');
                             }).catch(err => console.log(err))
                         }
-                    })
-                })
+                    });
+                });
             }
-        })
+        });
     }
 });
 
@@ -128,10 +132,11 @@ router.get('/profile', (req, res) => {
 
 
 router.post('/updateProfile/:id', (req, res) => {
-    let {name, email} = req.body;
+    let {name, imageURL, email} = req.body;
 
     User.update({
         name,
+        profileImgURL: imageURL,
         email
     }, {
         where: {
@@ -145,36 +150,118 @@ router.post('/updateProfile/:id', (req, res) => {
 
 
 
+
+router.get('/resetPassword', (req, res) => {
+    res.render('./user/resetPassword');
+});
+
+
+
+router.post('/resetPassword', (req, res) => {
+    let {email} = req.body;
+
+    function sendEmail(userId, email) {
+        sgMail.setApiKey("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");
+
+        const message = {
+            to: email,
+            from: 'Do Not Reply <admin@E-Commerce.sg>',
+            subject: 'Password reset for your account',
+            text: 'E-Commerce email password reset',
+            html: `Request of password reset<br><br>Please click <a href="http://localhost:5000/user/verify/${userId}"><strong>here</strong></a> to reset your password.`
+        };
+
+        sgMail.send(message);
+
+        // return new Promise((resolve, reject) => {
+        //     sgMail.send(message).then(msg => resolve(msg)).catch(err => reject(err));
+        // });
+    }
+
+    User.findOne({
+        where: {
+            email: email
+        }
+    }).then((user) => {
+        sendEmail(user.id, user.email).then(msg => {
+            alertMessage(res, 'success', user.name + ' has requested for a password reset. Please login to ' + user.email + ' to reset your password.', 'fas fa-sign-in-alt', true);
+            res.redirect('/signin');
+        }).catch(err => {
+            console.log(err);
+            alertMessage(res, 'danger', 'Error sending to ' + user.email, 'fa fa-warning', true);
+            res.redirect('/');
+        });
+    }).catch(err => console.log(err));
+});
+
+
+
+
+
 router.get('/changePassword', (req, res) => {
     res.render('./user/changePassword');
 });
 
 
-
 router.post('/changePassword', (req, res) => {
-    let {password, newPass, confirmNewPass} = req.body;
+    let {newPass, confirmNewPass} = req.body;
+    let id = req.user.id;
 
-    User.findOne({
-        where: {
-            id: req.params.id
-        }
-    }).then((user) => {
+    bcrypt.genSalt(10, function(err, salt) {
+        bcrypt.hash("B4c0/\/", salt, function(err, hash) {
+            newPass = bcrypt.hashSync(newPass, salt);
 
+            User.update({
+                password: newPass
+            }, {
+                where: {
+                    id: id
+                }
+            }).then(() => {
+                alertMessage(res, "success", "Your password has been changed successfully. Please sign in with your new password", "fa fa-check", true);
+                res.redirect("/signout");
+            }).catch(err => console.log(err));
+        })
     })
-})
-
-router.get('/ProductDetails/:id', (req, res) => {
-    Product.findOne({
-        where: {
-            id: req.params.id
-        }
-    }).then((product) => {
-        res.render('./user/ProductDetails', {
-            product
-        });
-    }).catch(err => console.log(err));
 });
 
+
+
+router.post('/upload', ensureAuthenticated, (req, res) => {
+    if (!fs.existsSync('./public/uploads/' + req.user.id)) {
+        fs.mkdirSync('./public/uploads/' + req.user.id);
+    }
+
+
+    upload(req, res, (err) => {
+        if (err) {
+            res.json({
+                file: '/images/no-image.jpg', 
+                err: err
+            });
+
+            console.log(err);
+        }
+
+
+        else {
+            if (req.file === undefined) {
+                res.json({
+                    file: '/images/no-image.jpg',
+                    err: err
+                });
+
+                console.log(err);
+            }
+
+            else {
+                res.json({
+                    file: `/uploads/${req.user.id}/${req.file.filename}`
+                });
+            }
+        }
+    });
+});
 
 
 

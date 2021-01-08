@@ -18,9 +18,13 @@
     #profileImg {
         width: 40px;
     }
+
+    #navbar {
+        height: 16%;
+    }
 </style>
 
-<nav class="navbar navbar-inverse navbar-dark bg-dark">
+<nav id="navbar" class="navbar navbar-inverse navbar-dark bg-dark">
     <div class="container-fluid">
         <div class="navbar-header">
             <a href="/" class="navbar-brand font-weight-bold text-primary">Home</a>
@@ -28,24 +32,20 @@
 
         {{#if user}}
         <ul class="nav navbar">
-            <li id="adminProduct" class="navbar-brand font-weight-bold">
-
+            <li id="adminViewProduct" class="navbar-brand font-weight-bold">
                 <a href="/admin/adminProductsView" class="nav-link">View Product</a>
-
-                <a href="/admin/addProductAdmin" class="nav-link">Add products</a>
-
             </li>
+
+            {{!-- <li id="adminAddProduct" class="navbar-brand font-weight-bold">
+                <a href="/admin/addProductAdmin" class="nav-link">Add products</a>
+            </li> --}}
 
             <li id="adminUser" class="navbar-brand font-weight-bold">
                 <a href="/admin/adminUsersView" class="nav-link">All customers</a>
             </li>
 
-
-            <li id="customerProduct" class="navbar-brand font-weight-bold"><a href="/admin/Product" class="nav-link">View Products</a></li>
-
-
             <li id="profileImg" class="navbar-brand font-weight-bold">
-                <img src="/images/CoffeeCup.jpg" id="image" style="width:65px; height:55px; cursor:pointer" data-toggle="dropdown" class="btn dropdown-toggle img-circle">
+                <img src="{{user.profileImgURL}}" id="image" style="width:65px; height:55px; cursor:pointer" data-toggle="dropdown" class="btn dropdown-toggle img-circle">
 
                 <ul id="dropdown" class="dropdown-menu">
                     <p class="font-weight-bold text-dark text-center">Welcome {{user.username}}</p>
@@ -63,11 +63,7 @@
         <ul id="nav navbar">
             <li class="navbar-brand font-weight-bold"><a href="/signup" class="nav-link">Sign up</a></li>
             <li class="navbar-brand font-weight-bold"><a href="/signin" class="nav-link">Sign in</a></li>
-
-            </ul>
-
         </ul>
-
         {{/if}}
 
         {{!-- <div class="row">
@@ -98,21 +94,26 @@
 
 <script>
     if ('{{user.role}}' == "Administrator") {
-        document.getElementById("adminProduct").style.display = "block";
+        document.getElementById("adminViewProduct").style.display = "block";
+        //document.getElementById("adminAddProduct").style.display = "block";
         document.getElementById("adminUser").style.display = "block";
-
-        document.getElementById("customerProduct").style.display ="none"
-
-        document.getElementById("dropdown").style.marginLeft = "250px";
+        document.getElementById("dropdown").style.marginLeft = "260px";
     }
 
     else if ('{{user.role}}' == "User") {
-        document.getElementById("adminProduct").style.display = "none";
+        document.getElementById("adminViewProduct").style.display = "none";
+        //document.getElementById("adminAddProduct").style.display = "none";
         document.getElementById("adminUser").style.display = "none";
-
-        document.getElementById("customerProduct").style.display ="block"
-
         document.getElementById("dropdown").style.marginLeft = "-100px";
+    }
+
+
+    if ('{{user.profileImgURL}}' == "") {
+        document.getElementById("image").src = "/public/images/profileImg.png";
+    }
+
+    else {
+        document.getElementById("image").src = "{{user.profileImgURL}}";
     }
 </script>
 
