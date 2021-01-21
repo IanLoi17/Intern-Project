@@ -1,0 +1,44 @@
+<div>
+    <li class="navbar-brand font-weight-bold"><a href="/admin/addProductAdmin" class="nav-link">Add products</a></li>
+    <li class="navbar-brand font-weight-bold"><a href="/admin/InventoryProduct" class="nav-link">View Inventory</a></li>
+</div>
+{{#if products}}
+<table class="table table-hover table-bordered table-responsive">
+    <thead>
+        <tr>
+            <td>Id</td>
+            <td>Image</td>
+            <td>Name</td>
+            <td>Type</td>
+            <td>Description</td>
+            <td>Selling Price</td>
+            <td>Quantity</td>
+            <td></td>
+        </tr>
+    </thead>
+        {{#each products}}
+        <tr>
+            <td>{{ProductImage}}
+                <img src="{{ProductImage}}" alt="" class="border img-thumbnail img-fluid" style="height:95%;width:100%">
+                </td>
+            <td>{{ProductName}}</td>
+            <td>{{ProductType}}</td>
+            <td>{{ProductDesc}}</td>
+            <td>{{ProductSellingPrice}}</td>
+            <td>{{ProductQuantity}}</td>
+            <td>
+                <div class="btn-group" role="group">
+                    {{!-- <button type="button" class="btn btn-success">View</button> --}}
+                    <a href="/admin/deleteProduct/{{id}}" role="button" data-title="Confirm delete" class="btn btn-danger btn-sm">
+                        <i class="fas fa-trash-alt"></i> Delete
+                    </a>
+                </div>
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+{{else}}
+<h1 class="text-center font-weight-bold">No Products found</h1>
+{{/if}}

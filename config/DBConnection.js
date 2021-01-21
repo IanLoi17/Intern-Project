@@ -1,6 +1,7 @@
 const mySQLDB = require('./DBConfig');
 const user = require('../models/User');
 const product = require('../models/Product');
+const inventory = require('../models/Inventory');
 
 
 const setUpDB = (drop) => {

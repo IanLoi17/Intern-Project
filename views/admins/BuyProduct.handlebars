@@ -1,0 +1,95 @@
+{{!-- form to buy product to get buying price --}}
+<div class="container">
+    <form method="post" action="/admin/BuyProduct">
+        <div class="row">
+
+            <div class="form-inline form-group col-sm-12 col-md-12 col-lg-12">
+                <label id="label" for="ProductId" class="text-dark font-weight-bold">Product Id:</label>
+                <input type="text" class="form-control col-sm-12 col-md-10 col-lg-10"
+                    placeholder="Product Id" autocomplete="off" name="ProductId" required>
+            </div>
+
+            <div class="form-inline form-group col-sm-12 col-md-12 col-lg-12">
+                <label id="label" for="ProductName" class="text-dark font-weight-bold">Product Name:</label>
+                <input type="text" class="form-control col-sm-12 col-md-10 col-lg-10"
+                    placeholder="Product Name" autocomplete="off" name="ProductName" required>
+            </div>
+
+            <div class="form-inline form-group col-sm-12 col-md-12 col-lg-12">
+                <label for="ProductType" class="text-dark font-weight-bold">Product Type:</label>
+                <select name="ProductType" class="form-control" placeholder="Product Type">
+                    <option value="Beauty">Beauty</option>
+                    <option value="Computers">Computers</option>
+                    <option value="Sunglasses and Jewellery">Sunglasses and Jewellery</option>
+                    <option value="Groceries">Groceries</option>
+                </select>
+            </div>
+
+            <div class="form-inline form-group col-sm-12 col-md-12 col-lg-12">
+                <label for="ProductQuantity" class="text-dark font-weight-bold">Product Quantity:</label>
+                <input type="number" name="ProductQuantity" placeholder="Product Quantity" autocomplete="off" class="form-control col-sm-12 col-md-10 col-lg-10">
+            </div>
+
+            <div class="form-inline form-group col-sm-12 col-md-12 col-lg-12">
+                {{!-- <label for="ProductImage" class="text-dark font-weight-bold">Product image:</label> --}}
+                <input type="file" id="productImg" name="productImg" accept="image/png,image/jpeg,image/jpg,image/gif" class="col-sm-12 col-md-10 col-lg-10">
+                <img id="productImg" src="/images/no-image.jpg" />
+                <input type="hidden" id="productImgURL" name="productImgURL" />
+            </div>
+
+            <div class="form-inline form-group col-sm-12 col-md-12 col-lg-12">
+                <label for="ProductCostPrice" class="text-dark font-weight-bold">Cost Price:</label>
+                <input type="text" name="ProductCostPrice" class="form-control col-sm-12 col-md-10 col-lg-10" autocomplete="off">
+            </div>
+
+            <input id="BuyingDatetime" name="BuyingDateTime" type="hidden">
+
+            {{!-- <div>BUYING DATETIME FIELD HIDDEN</div> --}}
+
+            <div class="form-group col-sm-12 col-md-12 col-lg-12">
+                <button type="submit" class="btn btn-primary">Buy product</button>
+            </div>
+        </div>
+
+    </form>
+
+    <div class="form-group col-sm-12 col-md-12 col-lg-12">
+        <button class="btn btn-primary" onclick="location.href='/admin/adminProductsView'">Cancel</button>
+    </div>
+</div>
+
+<script>
+    function getDateTime() {
+        let d = new Date();
+        let month = d.getMonth() + 1;
+        let year = d.getFullYear();
+        let day = d.getDate();
+        let hour = d.getHours();
+        let minute = d.getMinutes();
+        let second = d.getSeconds();
+
+        if (month.toString().length == 1) {
+            month = '0' + month;
+        }
+        if (day.toString().length == 1) {
+            day = '0' + day;
+        }
+        if (hour.toString().length == 1) {
+            hour = '0' + hour;
+        }
+        if (minute.toString().length == 1) {
+            minute = '0' + minute;
+        }
+        if (second.toString().length == 1) {
+            second = '0' + second;
+        }
+
+        let date = day + "/" + month + "/" + year + " " + hour + ":" + minute + ":" + second;
+        return date;
+    }
+
+    setInterval(function () {
+        currentTime = getDateTime();
+        document.getElementById("BuyingDatetime").value = currentTime;
+    }, 1000);
+</script>

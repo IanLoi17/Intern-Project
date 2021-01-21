@@ -1,36 +1,111 @@
 <style>
-    #navbar {
-        list-style-type: none;
-        overflow: hidden;
-    }
-
     li {
         float: left;
     }
+
+    #image {
+        margin-right: 95px;
+    }
+
+    hr {
+        margin-bottom: 0;
+    }
+
+    #dropdown {
+        width: 215px;
+    }
+
+    #profileImg {
+        width: 40px;
+    }
 </style>
 
-<nav class="navbar navbar-dark bg-dark">
+<nav class="navbar navbar-inverse navbar-dark bg-dark">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a href="/" class="navbar-brand">Home</a>
+            <a href="/" class="navbar-brand font-weight-bold text-primary">Home</a>
         </div>
 
-        <div class="row">
+        {{#if user}}
+        <ul class="nav navbar">
+            <li id="adminTransaction" class="navbar-brand font-weight-bold">
+                <a href="/admin/transactionDetails" class="nav-link">View all transactions</a>
+            </li>
+            
+            <li id="adminProduct" class="navbar-brand font-weight-bold">
+                <a href="/admin/adminProductsView" class="nav-link">View Product</a>
+            </li>
+
+            <li id="adminUser" class="navbar-brand font-weight-bold">
+                <a href="/admin/adminUsersView" class="nav-link">All customers</a>
+            </li>
+
+            <li id="customerProduct" class="navbar-brand font-weight-bold"><a href="/admin/Product" class="nav-link">View Products</a></li>
+
+            <li id="profileImg" class="navbar-brand font-weight-bold">
+                <img src="/images/CoffeeCup.jpg" id="image" style="width:65px; height:55px; cursor:pointer" data-toggle="dropdown" class="btn dropdown-toggle img-circle">
+
+                <ul id="dropdown" class="dropdown-menu">
+                    <p class="font-weight-bold text-dark text-center">Welcome {{user.username}}</p>
+                    <hr>
+                    <li class="navbar-brand font-weight-bold">
+                        <a href="/user/profile" class="nav-link"><i class="fas fa-user-circle"></i> View profile</a>
+                        <a href="/user/changePassword" class="nav-link"><i class="fa fa-unlock-alt"></i> Change password</a>
+                        <a href="/signout" class="nav-link"><i class="fas fa-sign-out-alt" aria-hidden="true"></i> Sign out</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
+        {{else}}
+        <ul id="nav navbar">
+            <li class="navbar-brand font-weight-bold"><a href="/signup" class="nav-link">Sign up</a></li>
+            <li class="navbar-brand font-weight-bold"><a href="/signin" class="nav-link">Sign in</a></li>
+            </ul>
+        {{/if}}
+
+        {{!-- <div class="row">
             <div class="col-sm-12 col-md-12 col-lg-12">
                 {{#if user}}
                 <ul id="navbar">
-                    <li class="navbar-brand"><a href="/signout" class="nav-link">Sign out</a></li>
+                    <li class="navbar-brand"><a href="/product/addProductAdmin" class="nav-link font-weight-bold">Add
+                            products</a></li>
+                    <li class="navbar-brand"><a href="/user/adminUsersView" class="nav-link font-weight-bold">All
+                            users</a></li>
+                    <li class="navbar-brand"><a href="/signout" class="nav-link font-weight-bold">Sign out</a></li>
                 </ul>
             </div>
 
             <div class="col-sm-12 col-md-12 col-lg-12">
                 {{else}}
                 <ul id="navbar">
-                    <li class="navbar-brand"><a class="nav-link" href="/signup" style="text-decoration: none;">Sign up</a></li>
-                    <li class="navbar-brand"><a class="nav-link" href="/signin" style="text-decoration: none;">Sign in</a></li>
+                    <li class="navbar-brand"><a class="nav-link font-weight-bold" href="/signup"
+                            style="text-decoration: none;">Sign up</a></li>
+                    <li class="navbar-brand"><a class="nav-link font-weight-bold" href="/signin"
+                            style="text-decoration: none;">Sign in</a></li>
                 </ul>
                 {{/if}}
             </div>
-        </div>
+        </div> --}}
     </div>
 </nav>
+
+<script>
+    if ('{{user.role}}' == "Administrator") {
+        document.getElementById("adminProduct").style.display = "block";
+        document.getElementById("adminUser").style.display = "block";
+        document.getElementById("adminTransaction").style.display = "block"
+        document.getElementById("customerProduct").style.display ="none"
+        document.getElementById("dropdown").style.marginLeft = "250px";
+    }
+
+    else if ('{{user.role}}' == "User") {
+        document.getElementById("adminProduct").style.display = "none";
+        document.getElementById("adminUser").style.display = "none";
+        document.getElementById("adminTransaction").style.display = "none"
+        document.getElementById("customerProduct").style.display ="block"
+        document.getElementById("dropdown").style.marginLeft = "-100px";
+    }
+</script>
+
+
