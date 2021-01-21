@@ -57,7 +57,7 @@ router.post('/signup', (req, res) => {
                     cpassword
                 })
 
-                alertMessage(res, 'danger', 'A user with email ' + user.email + 'has already registered an account! Use another email', 'fa fa-warning', true);
+                alertMessage(res, 'danger', 'A user with the username ' + user.username + ' has already registered an account! Use another username', 'fa fa-warning', true);
             }
 
             else {
@@ -98,7 +98,7 @@ router.post('/signup', (req, res) => {
                     })
                 })
             }
-        })
+        });
     }
 });
 
