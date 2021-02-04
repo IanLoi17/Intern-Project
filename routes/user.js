@@ -163,6 +163,14 @@ router.post('/changePassword', (req, res) => {
     })
 })
 
+router.get('/Product', (req, res) => {
+    Product.findAll().then((products) => {
+        res.render('./user/Product', {
+            products
+        })
+    })
+})
+
 router.get('/ProductDetails/:id', (req, res) => {
     Product.findOne({
         where: {

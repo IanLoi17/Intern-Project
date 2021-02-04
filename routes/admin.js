@@ -21,18 +21,21 @@ router.get('/addProductAdmin', (req, res) => {
 
 
 router.post('/addProductAdmin', (req, res) => {
-    let {ProductName, ProductType, ProductDesc, ProductQuantity, productImgURL, ProductSellingPrice} = req.body;
+    let {ProductId, ProductName, ProductQuantity, productImgURL, ProductDesc, ProductCostPrice, ProductSellingPrice, ProductType, BuyingDateTime} = req.body;
     let userId = req.user.id;
 
     console.log(productImgURL);
 
     Product.create({
+        ProductId,
         ProductName,
         ProductQuantity,
         ProductImage: productImgURL,
         ProductDesc,
+        ProductCostPrice,
         ProductSellingPrice,
         ProductType,
+        BuyingDateTime,
         userId
     }).then(() => {
         alertMessage(res, 'success', 'Product has been added successfully', 'fa fa-check-circle', true);
@@ -73,8 +76,8 @@ router.post('/BuyProduct', (req, res) => {
     }).catch(err => console.log(err));
 });
 
-router.get('/addProductAdmin/:ProductId', ensureAuthenticated, (req, res) => {
-    let id = req.params.ProductId;
+router.get('/addProductAdmin/:id', ensureAuthenticated, (req, res) => {
+    let id = req.params.id;
 
     Inventory.findOne({
         where: {
@@ -123,6 +126,48 @@ router.get('/deleteUser/:id', ensureAuthenticated, (req, res) => {
             }).then(() => {
                 alertMessage(res, 'danger', 'User data has been deleted successfully', 'fas fa-trash-alt', true);
                 res.redirect('/admin/adminUsersView');
+            }).catch(err => console.log(err));
+        }
+    }).catch(err => console.log(err));
+});
+
+router.get('/deleteProduct/:id', ensureAuthenticated, (req, res) => {
+    let id = req.params.id;
+
+    Product.findOne({
+        where: {
+            id: id
+        }
+    }).then((product) => {
+        if (product != null) {
+            Product.destroy({
+                where: {
+                    id: id
+                }
+            }).then(() => {
+                alertMessage(res, 'danger', 'Product data has been deleted successfully', 'fas fa-trash-alt', true);
+                res.redirect('/admin/adminProductsView');
+            }).catch(err => console.log(err));
+        }
+    }).catch(err => console.log(err));
+});
+
+router.get('/deleteInventory/:id', ensureAuthenticated, (req, res) => {
+    let id = req.params.id;
+
+    Inventory.findOne({
+        where: {
+            id: id
+        }
+    }).then((inventory) => {
+        if (inventory != null) {
+            Inventory.destroy({
+                where: {
+                    id: id
+                }
+            }).then(() => {
+                alertMessage(res, 'danger', 'Inventory data has been deleted successfully', 'fas fa-trash-alt', true);
+                res.redirect('/admin/InventoryProduct');
             }).catch(err => console.log(err));
         }
     }).catch(err => console.log(err));

@@ -2,29 +2,33 @@
 <table class="table table-hover table-bordered table-responsive">
     <thead>
         <tr>
-            {{!-- <td>Product ID</td> --}}
+            <td>Product Id</td>
             <td>Product Name</td>
             <td>Product Image</td>
-            {{!-- <td>Units Purchased</td> --}}
-            <td>Inventory</td>
-            {{!-- <td>Cost</td> --}}
-            <td>Buying DT</td>
+            {{!-- <td>Units Sold</td> --}}
+            {{!-- <td>Units Bought</td> --}}
+            <td>Current Inventory</td>
+            <td>Cost</td>
+            <td>Purchase DT</td>
             <td>Selling Price</td>
-            {{!-- <td>Selling DT</td> --}}
+            <td>Sold DT</td>
             {{!-- <td>Location</td> --}}
         </tr>
     </thead>
     {{#each products}}
     <tr>
+        <td>{{ProductId}}</td>
         <td>{{ProductName}}</td>
-        <td>{{ProductImage}}</td>
+        <td><img src="{{ProductImage}}" alt="" class="border img-thumbnail img-fluid" style="height:100%;width:100%"></td>
         <td>{{ProductQuantity}}</td>
+        <td>{{ProductCostPrice}}</td>
         <td>{{formatDate BuyingDateTime 'DD/MM/YYYY HH:mm:ss'}}</td>>
         <td>{{ProductSellingPrice}}</td>
+        <td>{{formatDate SellingDateTime 'DD/MM/YYYY HH:mm:ss'}}</td>
     </tr>
     {{/each}}
 </table>
 
 {{else}}
-<h2 class="font-weight-bold">No Transaction Yet</h2>
+<h2 class="font-weight-bold">No Transaction Made</h2>
 {{/if}}
