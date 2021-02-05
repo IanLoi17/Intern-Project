@@ -1,28 +1,30 @@
 <div>
     <li class="navbar-brand font-weight-bold"><a href="/admin/addProductAdmin" class="nav-link">Add products</a></li>
+    <li class="navbar-brand font-weight-bold"><a href="/admin/InventoryProduct" class="nav-link">View Inventory</a></li>
 </div>
 {{#if products}}
 <table class="table table-hover table-bordered table-responsive">
     <thead>
         <tr>
+            <td>Id</td>
             <td>Image</td>
             <td>Name</td>
             <td>Type</td>
             <td>Description</td>
-            <td>Price</td>
+            <td>Selling Price</td>
             <td>Quantity</td>
             <td></td>
         </tr>
     </thead>
         {{#each products}}
         <tr>
-            <td>
+            <td>{{ProductImage}}
                 <img src="{{ProductImage}}" alt="" class="border img-thumbnail img-fluid" style="height:95%;width:100%">
-            </td>
+                </td>
             <td>{{ProductName}}</td>
             <td>{{ProductType}}</td>
             <td>{{ProductDesc}}</td>
-            <td>{{ProductPrice}}</td>
+            <td>{{ProductSellingPrice}}</td>
             <td>{{ProductQuantity}}</td>
             <td>
                 <div class="btn-group" role="group">

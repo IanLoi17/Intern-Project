@@ -1,0 +1,19 @@
+<div class="container">
+    {{#if user}}
+    <div class="card-body">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <h1 class="text-center font-weight-bold">{{user.name}}</h1>
+            </div>
+
+            <div class="col-sm-12 col-md-4 col-lg-3">
+                <input type="text" class="form-control" value="{{user.email}}">
+            </div>
+
+            <div class="col-sm-12 col-md-4 col-lg-3">
+                <input type="text" class="form-control" value="{{user.username}}">
+            </div>
+        </div>
+    </div>
+    {{/if}}
+</div>

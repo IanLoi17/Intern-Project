@@ -19,7 +19,7 @@
         <tr>
             <td>{{ProductId}}</td>
             <td>
-                <img src="{{ProductImage}}" alt="" class="border img-thumbnail img-fluid" style="height:100%;width:100%">
+                <img src="{{ProductImage}}" alt="" class="border img-thumbnail img-fluid" style="height:95%;width:100%">
                 </td>
             <td>{{ProductName}}</td>
             <td>{{ProductType}}</td>
@@ -30,14 +30,6 @@
                 <div class="btn-group" role="group">
                     {{!-- <button type="button" class="btn btn-success">View</button> --}}
                     <a role="button" class="btn btn-primary" href="/admin/addProductAdmin/{{id}}">Add To Product</a>
-                </div>
-            </td>
-            <td>
-                <div class="btn-group" role="group">
-                    {{!-- <button type="button" class="btn btn-success">View</button> --}}
-                    <a href="/admin/deleteInventory/{{id}}" role="button" data-title="Confirm delete" class="btn btn-danger btn-sm">
-                        <i class="fas fa-trash-alt"></i> Delete
-                    </a>
                 </div>
             </td>
         </tr>
