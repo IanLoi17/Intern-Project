@@ -7,20 +7,6 @@
         margin-left: 15px;
         margin-bottom: 40px;
     }
-
-
-    input[type="file"] {
-        display: none;
-    }
-
-
-    #img {
-        border: 1px solid black;
-        cursor: pointer;
-        margin-bottom: 20%;
-        width: 40%;
-        height: 60%;
-    }
 </style>
 
 
@@ -31,14 +17,6 @@
 
         <div class="card-body">
             <form method="post" action="/user/updateProfile/{{user.id}}">
-                <div class="row">
-                    <div class="text-center" style="height: 20%;">
-                        <input type="file" id="imgUpload" name="imgUpload" accept="image/png,image/jpeg,image/jpg,image/gif" />
-                        <img id="img" src="/images/profileImg.png" />
-                        <input id="imageURL" type="hidden" name="imageURL" />
-                    </div>
-                </div>
-
                 <div class="row">
                     <div class="col-sm-12 col-md-6 col-lg-4">
                         <label for="name" class="font-weight-bold">Full name:</label>
@@ -93,17 +71,5 @@
         document.getElementById("editBtn").style.display = "block";
         document.getElementById("updateBtn").style.display = "none";
         document.getElementById("backBtn").style.display = "none";
-    }
-
-
-    var profileImgBtn = document.getElementById('img');
-    var fileInput = document.querySelector('[type="file"]');
-
-    profileImgBtn.addEventListener('click', function() {
-        fileInput.click();
-    });
-
-    if ('{{user.profileImgURL}}' != "") {
-        document.getElementById("img").src = "{{user.profileImgURL}}";
     }
 </script>

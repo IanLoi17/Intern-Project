@@ -18,8 +18,8 @@
 
             <div class="form-inline form-group col-sm-12 col-md-12 col-lg-12">
                 <label for="ProductType" class="text-dark font-weight-bold">Product Type:</label>
-                <select name="ProductType" id="productType" class="form-control" placeholder="Product type"
-                    value="{{inventory.ProductType}}">
+                <select name="ProductType" id="productType" value="{{inventory.ProductType}}" class="form-control"
+                    placeholder="Product type">
                     <option value="Beauty">Beauty</option>
                     <option value="Computers">Computers</option>
                     <option value="Sunglasses and Jewellery">Sunglasses and Jewellery</option>
@@ -49,20 +49,20 @@
             </div>
 
             <div class="form-inline form-group col-sm-12 col-md-12 col-lg-12">
-                <label for="ProductPrice" class="text-dark font-weight-bold">Product Cost Price:</label>
+                <label for="ProductCostPrice" class="text-dark font-weight-bold">Product Cost Price:</label>
                 <input id="productCostPrice" type="text" name="ProductSellingPrice"
                     class="form-control col-sm-12 col-md-10 col-lg-10" value="{{inventory.ProductCostPrice}}"
                     autocomplete="off">
             </div>
 
             <div class="form-inline form-group col-sm-12 col-md-12 col-lg-12">
-                <label for="ProductPrice" class="text-dark font-weight-bold">Product Selling Price:</label>
+                <label for="ProductSellingPrice" class="text-dark font-weight-bold">Product Selling Price:</label>
                 <input type="text" name="ProductSellingPrice" class="form-control col-sm-12 col-md-10 col-lg-10"
                     autocomplete="off">
             </div>
 
             <div class="form-group col-sm-12 col-md-12 col-lg-12">
-                <button type="submit" onclick="enable()" class="btn btn-primary">Add product</button>
+                <button type="submit" onclick="enableInputs()" class="btn btn-primary">Add product</button>
             </div>
         </div>
 
@@ -74,10 +74,33 @@
 </div>
 
 <script>
-    document.getElementById("productId").disabled = true;
-    //document.getElementById("productName").disabled = true;
-    //document.getElementById("productType").disabled = true;
-    //document.getElementById("productQuantity").disabled = true;
-    //document.getElementById("productImgURL").disabled = true;
-    document.getElementById("productCostPrice").disabled = true;
+    //document.getElementById("productId").disabled = true
+    //document.getElementById("productName").disabled = true
+    //document.getElementById("productType").disabled = true
+    //document.getElementById("productQuantity").disabled = true
+    //document.getElementById("productImgURL").disabled = true
+    document.getElementById("productCostPrice").disabled = true
 </script>
+
+{{!-- <form method="post" action="/admin/addProductAdmin">
+    <label for="fname">Product Name:</label>
+    <input type="text" name="ProductName"><br><br>
+    <label for="lname">Product Type:</label>
+    <select name="ProductType">
+        <option value></option>
+        <option value="Beauty">Beauty</option>
+        <option value="Computers">Computers</option>
+        <option value="Sunglasses and Jewelleary">Sunglasses and Jewellery</option>
+        <option value="Groceries">Groceries</option>
+    </select><br>
+    <label for="lname" style="margin-bottom: 20%;">Product Description:</label>
+    <textarea type="text" name="ProductDesc" rows="4" cols="35"></textarea><br><br>
+    <label for="lname">Product Quantity:</label>
+    <input type="text" name="ProductQuantity"><br><br>
+    <label for="lname">Product Image:</label>
+    <input type="file" name="ProductImage" /><br><br>
+    <label for="lname">Product Price:</label>
+    <input type="text" name="ProductPrice"><br><br>
+</form>
+<input type="button" onclick="location.href='/ProductAdmin';" value="Add Item" />
+<input type="button" onclick="location.href='/ProductAdmin';" value="Cancel" /> --}}

@@ -1,78 +1,47 @@
 const express = require('express');
 const router = express.Router();
 const Product = require('../models/Product');
-const Inventory = require('../models/Inventory');
 const User = require('../models/User');
 const alertMessage = require('../helpers/messenger');
 const ensureAuthenticated = require('../helpers/auth');
 const fs = require('fs');
 const upload = require('../helpers/productUpload');
+const Inventory = require('../models/Inventory');
+const moment = require('moment');
 
-router.get('/addProductAdmin/:id', (req, res) => {
-    let id = req.params.id;
-    
-    // Product.findAll({
-    //     where: {}
-    // }).then((products) => {
-    //     res.render('./admins/addProductAdmin', {
-    //         products
-    //     });
-    // }).catch(err => console.log(err));
-    Inventory.findOne({
-        where: {
-            id: id
-        }
-    }).then(inventory => {
+router.get('/addProductAdmin', (req, res) => {
+    Product.findAll({
+        where: {}
+    }).then((products) => {
         res.render('./admins/addProductAdmin', {
-            inventory
+            products
         });
     }).catch(err => console.log(err));
 });
 
 
-
 router.post('/addProductAdmin', (req, res) => {
-    let {ProductName, ProductType, ProductDesc, ProductQuantity, productImgURL, ProductSellingPrice} = req.body;
+    let {ProductId, ProductName, ProductQuantity, productImgURL, ProductDesc, ProductCostPrice, ProductSellingPrice, ProductType, BuyingDateTime} = req.body;
     let userId = req.user.id;
 
     console.log(productImgURL);
 
     Product.create({
+        ProductId,
         ProductName,
         ProductQuantity,
         ProductImage: productImgURL,
         ProductDesc,
+        ProductCostPrice,
         ProductSellingPrice,
         ProductType,
+        BuyingDateTime,
         userId
     }).then(() => {
         alertMessage(res, 'success', 'Product has been added successfully', 'fa fa-check-circle', true);
         res.redirect('/admin/adminProductsView');
     }).catch(err => console.log(err));
 });
-
-
-
-router.get('/adminUsersView', ensureAuthenticated, (req, res) => {
-    User.findAll({
-        where: {
-            role: "User"
-        },
-        
-        order: [
-            ['name', 'ASC']
-        ],
-        
-        raw: true
-    }).then((users) => {
-        res.render('./admins/adminUsersView', {
-            users: users
-        });
-    }).catch(err => console.log(err));
-});
-
-
-
 
 router.get('/BuyProduct', (req, res) => {
     Inventory.findAll({
@@ -107,14 +76,34 @@ router.post('/BuyProduct', (req, res) => {
     }).catch(err => console.log(err));
 });
 
+router.get('/addProductAdmin/:id', ensureAuthenticated, (req, res) => {
+    let id = req.params.id;
 
-
-router.get('/InventoryProduct', (req, res) => {
-    Inventory.findAll({
-        where: {}
-    }).then((inventory) => {
-        res.render('./admins/InventoryProduct', {
+    Inventory.findOne({
+        where: {
+            id: id
+        }
+    }).then(inventory => {
+        res.render('admins/addProductAdmin',{
             inventory
+        });
+    }).catch(err => console.log(err))
+});
+
+router.get('/adminUsersView', ensureAuthenticated, (req, res) => {
+    User.findAll({
+        where: {
+            role: "User"
+        },
+        
+        order: [
+            ['name', 'ASC']
+        ],
+        
+        raw: true
+    }).then((users) => {
+        res.render('./admins/adminUsersView', {
+            users: users
         });
     }).catch(err => console.log(err));
 });
@@ -142,12 +131,75 @@ router.get('/deleteUser/:id', ensureAuthenticated, (req, res) => {
     }).catch(err => console.log(err));
 });
 
+router.get('/deleteProduct/:id', ensureAuthenticated, (req, res) => {
+    let id = req.params.id;
+
+    Product.findOne({
+        where: {
+            id: id
+        }
+    }).then((product) => {
+        if (product != null) {
+            Product.destroy({
+                where: {
+                    id: id
+                }
+            }).then(() => {
+                alertMessage(res, 'danger', 'Product data has been deleted successfully', 'fas fa-trash-alt', true);
+                res.redirect('/admin/adminProductsView');
+            }).catch(err => console.log(err));
+        }
+    }).catch(err => console.log(err));
+});
+
+router.get('/deleteInventory/:id', ensureAuthenticated, (req, res) => {
+    let id = req.params.id;
+
+    Inventory.findOne({
+        where: {
+            id: id
+        }
+    }).then((inventory) => {
+        if (inventory != null) {
+            Inventory.destroy({
+                where: {
+                    id: id
+                }
+            }).then(() => {
+                alertMessage(res, 'danger', 'Inventory data has been deleted successfully', 'fas fa-trash-alt', true);
+                res.redirect('/admin/InventoryProduct');
+            }).catch(err => console.log(err));
+        }
+    }).catch(err => console.log(err));
+});
+
 
 router.get('/adminProductsView', (req, res) => {
     Product.findAll({
         where: {}
     }).then((products) => {
-        res.render('./admins/adminProductView', {
+        res.render('./admins/adminProductsView', {
+            products
+        });
+    }).catch(err => console.log(err));
+});
+
+router.get('/InventoryProduct', (req, res) => {
+    Inventory.findAll({
+        where: {}
+    }).then((inventory) => {
+        res.render('./admins/InventoryProduct', {
+            inventory
+        });
+    }).catch(err => console.log(err));
+});
+
+
+router.get('/transactionDetails', (req, res) => {
+    Product.findAll({
+        where: {}
+    }).then((products) => {
+        res.render('./admins/transactionDetails', {
             products
         });
     }).catch(err => console.log(err));
@@ -182,24 +234,17 @@ router.post('/upload', ensureAuthenticated, (req, res) => {
             }
         }
     })
-});
+})
 
-
-router.get('/editUser/:id', (req, res) => {
-    let id = req.user.id;
-
-    User.findOne({
-        where: {
-            id: id
-        }
-    }).then((user) => {
-        res.render('./admins/viewUsers', {
-            user
+router.get('/transactionDetails', (req, res) => {
+    Product.findAll({
+        where: {}
+    }).then((products) => {
+        res.render('./admins/transactionDetails', {
+            products
         });
     }).catch(err => console.log(err));
 });
-
-
 
 // router.get('/viewUser/:id', (req, res) => {
 //     User.findOne({

@@ -1,143 +1,40 @@
-<style>
-    #customer {
-        width: 100%;
-    }
-
-
-    #profile {
-        width: 45%;
-        height: 40%;
-    }
-
-    #searchUser {
-        display: inline;
-        bottom: 0;
-    }
-
-    .categoryForm {
-        display: flex;
-        align: center;
-        width: 28%;
-        margin-bottom: 10%;
-    }
-</style>
-
-<div class="text-center">
-    <h1 class="font-weight-bold">All customers</h1>
-</div>
-
-{{!-- {{#if users}}
-    <table id="customer" class="table table-hover table-bordered table-responsive">
-        <thead class="bg-dark text-light font-weight-bold">
-            <tr>
-                <td>Full name</td>
-                <td>Username</td>
-                <td>Role</td>
-                <td>Gender</td>
-                <td>Email</td>
-                <td>Date of birth</td>
-                <td>Password</td>
-                <td></td>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each users}}
-            <tr>
-                <td>{{name}}</td>
-                <td>{{username}}</td>
-                <td>{{role}}</td>
-                <td>{{gender}}</td>
-                <td>{{email}}</td>
-                <td>{{formatDate DOB 'DD MMMM YYYY'}}</td>
-                <td>{{password}}</td>
-                <td>
-                    <div class="btn-group" role="group">
-                        <a href="/admin/deleteUser/{{id}}" role="button" data-title="Confirm delete" class="btn btn-danger btn-sm">
-                            <i class="fas fa-trash-alt"></i> Delete
-                        </a>
-                    </div>
-                </td>
-            </tr>
-            {{/each}}
-        </tbody>
-    </table>
-
-{{else}}
-<h1 class="text-center font-weight-bold">No users found</h1>
-{{/if}} --}}
-
-<div id="searchDiv">
-    <div class="categoryForm">
-        <input type="text" id="searchUser" class="form-control" autocomplete="off" placeholder="Search for customers:">
-        <button class="btn btn-info" onclick="searchCustomers()"><i class="fa fa-search"></i></button>
-    </div>
-</div>
-
-
 {{#if users}}
-<div class="row">
-    {{#each users}}
-    <div class="col-sm-12 col-md-6 col-lg-4 customerInfo">
-        <div class="card">
-            <div class="card-body">
-                <h1 class="text-center font-weight-bold custNames" data-pname="{{name}}">{{name}}</h1>
-                {{!-- <img id="profile" src="{{profileImgURL}}" /> --}}
-
-                <p class="font-weight-bold">{{username}}</p>
-                {{!-- <p class="font-weight-bold">{{role}}</p> --}}
-                <p class="font-weight-bold">{{gender}}</p>
-                <p class="font-weight-bold">{{email}}</p>
-                <p class="font-weight-bold">{{formatDate DOB 'DD MMMM YYYY'}}</p>
-                <p class="font-weight-bold">{{formatDate signupDate 'DD MMMM YYYY HH:mm:ss'}}</p>
-                {{!-- <p class="font-weight-bold">{{password}}</p> --}}
-
+<table class="table table-hover table-bordered table-responsive">
+    <thead class="bg-dark text-light font-weight-bold">
+        <tr>
+            <td>Full name</td>
+            <td>Username</td>
+            <td>Role</td>
+            <td>Gender</td>
+            <td>Email</td>
+            <td>Date of birth</td>
+            <td>Password</td>
+            <td></td>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each users}}
+        <tr>
+            <td>{{name}}</td>
+            <td>{{username}}</td>
+            <td>{{role}}</td>
+            <td>{{gender}}</td>
+            <td>{{email}}</td>
+            <td>{{formatDate DOB 'DD MMM YYYY'}}</td>
+            <td>{{password}}</td>
+            <td>
                 <div class="btn-group" role="group">
+                    {{!-- <a href="/admin/viewUser/{{id}}" role="button" class="btn btn-secondary btn-sm">View</a> --}}
                     <a href="/admin/deleteUser/{{id}}" role="button" data-title="Confirm delete" class="btn btn-danger btn-sm">
                         <i class="fas fa-trash-alt"></i> Delete
                     </a>
-
-                    {{!-- <a href="/admin/editUser/{{id}}" role="button" class="btn btn-secondary btn-sm">
-                        <i class="fas fa-pencil-alt"></i> Edit
-                    </a> --}}
                 </div>
-            </div>
-        </div>
-    </div>
-    {{/each}}
-
-
-    <h1 id="notFoundmsg" class="text-dark font-weight-bold"></h1>
-</div>
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
 
 {{else}}
 <h1 class="text-center font-weight-bold">No users found</h1>
 {{/if}}
-
-
-
-<script>
-    function searchCustomers() {
-        let custInfoCards = document.querySelectorAll(".customerInfo");
-        let searchInput = document.getElementById("searchUser").value;
-        let filter = searchInput.toUpperCase();
-        let custNames = document.querySelectorAll(".custNames");
-        let msg = document.getElementById("notFoundmsg");
-
-
-        for (var i=0; i<custInfoCards.length; i++) {
-            let focus = custInfoCards[i];
-            let compare = custNames[i].dataset.pname;
-
-            if (compare.toUpperCase().includes(filter)) {
-                focus.style.display = "";
-                msg.innerHTML = ""
-            }
-
-            else {
-                focus.style.display = "none";
-
-                
-            }
-        }
-    }
-</script>

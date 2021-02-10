@@ -15,9 +15,6 @@ const User = db.define("user", {
     gender: {
         type: Sequelize.STRING
     },
-    profileImgURL: {
-        type: Sequelize.STRING
-    },
     email: {
         type: Sequelize.STRING
     },
@@ -26,12 +23,6 @@ const User = db.define("user", {
     },
     password: {
         type: Sequelize.STRING
-    },
-    signupDate: {
-        type: Sequelize.DATE
-    },
-    verified: {
-        type: Sequelize.BOOLEAN
     }
 });
 

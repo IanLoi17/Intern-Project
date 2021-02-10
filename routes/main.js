@@ -2,7 +2,9 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/', (req, res) => {
-    res.render('home');
+    const title = "Welcome";
+
+    res.render('home', {title: title});
 });
 
 
@@ -18,8 +20,9 @@ router.get('/signin', (req, res) => {
 
 router.get('/signout', (req, res) => {
     req.logout();
-    res.redirect('/signin');
+    res.redirect('/');
 })
+
 
 
 module.exports = router;
