@@ -1,0 +1,24 @@
+<style>
+    #prodImg {
+        width: 40%;
+        height: 50%;
+    }
+</style>
+
+
+<div class="container">
+    <form method="post">
+        <img id="prodImg" src="{{product.ProductImage}}" alt="water-bottle">
+        <p class="font-weight-bold">{{product.ProductName}}</p>
+        <p class="font-weight-bold">{{product.ProductDesc}}</p>
+        <label class="font-weight-bold">Qty left: <span class="font-italic font-weight-bold">{{product.ProductQuantity}}</span></label>
+        <input type="hidden" name="quantity" value="{{product.ProductQuantity}}" />
+
+
+        <button class="btn btn-primary" action="/user/buyProduct/{{product.id}}">Purchase</button>
+    </form>
+</div>
+
+<script>
+    
+</script>
